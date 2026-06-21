@@ -3,7 +3,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TEMPLATE="$ROOT/index.template.html"
-OUTPUT="$ROOT/index.html"
+OUTPUT_DIR="$ROOT/site"
+OUTPUT="$OUTPUT_DIR/index.html"
 BASE="https://commondatastorage.googleapis.com/chromium-browser-snapshots"
 
 fetch() {
@@ -22,6 +23,7 @@ IFS='|' read -r MAC_INTEL_REV MAC_INTEL_URL MAC_INTEL_SNAP <<< "$MAC_INTEL"
 IFS='|' read -r MAC_ARM_REV MAC_ARM_URL MAC_ARM_SNAP <<< "$MAC_ARM"
 IFS='|' read -r WIN_X64_REV WIN_X64_URL WIN_X64_SNAP <<< "$WIN_X64"
 
+mkdir -p "$OUTPUT_DIR"
 sed \
   -e "s|{{MAC_INTEL_REVISION}}|${MAC_INTEL_REV}|g" \
   -e "s|{{MAC_INTEL_URL}}|${MAC_INTEL_URL}|g" \
@@ -35,7 +37,7 @@ sed \
   -e "s|{{UPDATED}}|${UPDATED}|g" \
   "$TEMPLATE" > "$OUTPUT"
 
-echo "Updated index.html"
+echo "Updated site/index.html"
 echo "  Mac Intel:  ${MAC_INTEL_REV}"
 echo "  Mac Silicon: ${MAC_ARM_REV}"
 echo "  Windows x64: ${WIN_X64_REV}"
