@@ -4,12 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chromium Downloads</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --background: hsl(0 0% 100%);
+      --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      --background: hsl(240 4.8% 95.9%);
       --foreground: hsl(240 10% 3.9%);
       --card: hsl(0 0% 100%);
       --card-foreground: hsl(240 10% 3.9%);
@@ -44,7 +42,7 @@
     }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: var(--font-sans);
       background: var(--background);
       color: var(--foreground);
       min-height: 100vh;
@@ -270,19 +268,57 @@
     const tabs = document.querySelectorAll('.tag');
     const panels = document.querySelectorAll('.tab-panel');
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const id = tab.dataset.tab;
-
-        tabs.forEach(t => {
-          t.classList.toggle('active', t === tab);
-          t.setAttribute('aria-selected', t === tab);
-        });
-
-        panels.forEach(p => {
-          p.classList.toggle('active', p.id === id);
-        });
+    function selectTab(id) {
+      tabs.forEach(t => {
+        const active = t.dataset.tab === id;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active);
       });
+      panels.forEach(p => {
+        p.classList.toggle('active', p.id === id);
+      });
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => selectTab(tab.dataset.tab));
+    });
+
+    async function detectMacArch() {
+      if (navigator.userAgentData?.getHighEntropyValues) {
+        try {
+          const { architecture } = await navigator.userAgentData.getHighEntropyValues(['architecture']);
+          if (architecture === 'arm') return 'mac-arm';
+          if (architecture === 'x86') return 'mac-intel';
+        } catch (_) {}
+      }
+
+      try {
+        const gl = document.createElement('canvas').getContext('webgl');
+        const ext = gl?.getExtension('WEBGL_debug_renderer_info');
+        if (ext) {
+          const renderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+          if (/Apple M\d|Apple GPU/i.test(renderer)) return 'mac-arm';
+        }
+      } catch (_) {}
+
+      return 'mac-intel';
+    }
+
+    async function detectPlatform() {
+      const uad = navigator.userAgentData;
+      if (uad?.platform === 'Windows') return 'win-x64';
+      if (uad?.platform === 'macOS') return detectMacArch();
+
+      const ua = navigator.userAgent;
+      const platform = navigator.platform;
+      if (/Win/i.test(platform) || /Windows/i.test(ua)) return 'win-x64';
+      if (/Mac/i.test(platform) || /Macintosh/i.test(ua)) return detectMacArch();
+
+      return null;
+    }
+
+    detectPlatform().then(tab => {
+      if (tab) selectTab(tab);
     });
   </script>
 </body>
