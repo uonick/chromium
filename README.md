@@ -11,6 +11,7 @@ Official Chromium builds live in a large snapshot directory on Google Cloud Stor
 - **macOS (Intel)** — `chrome-mac.zip`
 - **macOS (Apple Silicon)** — `chrome-mac.zip`
 - **Windows (x64)** — `chrome-win.zip`
+- **Linux (x64)** — `chrome-linux.zip`
 
 Each tab shows the current revision number and when the page was last refreshed. These are snapshot builds: they do not auto-update after you install them.
 

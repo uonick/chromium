@@ -17,11 +17,13 @@ fetch() {
 MAC_INTEL=$(fetch Mac chrome-mac.zip)
 MAC_ARM=$(fetch Mac_Arm chrome-mac.zip)
 WIN_X64=$(fetch Win_x64 chrome-win.zip)
+LINUX_X64=$(fetch Linux_x64 chrome-linux.zip)
 UPDATED=$(date -u +"%Y-%m-%d %H:%M UTC")
 
 IFS='|' read -r MAC_INTEL_REV MAC_INTEL_URL MAC_INTEL_SNAP <<< "$MAC_INTEL"
 IFS='|' read -r MAC_ARM_REV MAC_ARM_URL MAC_ARM_SNAP <<< "$MAC_ARM"
 IFS='|' read -r WIN_X64_REV WIN_X64_URL WIN_X64_SNAP <<< "$WIN_X64"
+IFS='|' read -r LINUX_X64_REV LINUX_X64_URL LINUX_X64_SNAP <<< "$LINUX_X64"
 
 mkdir -p "$OUTPUT_DIR"
 sed \
@@ -34,6 +36,9 @@ sed \
   -e "s|{{WIN_X64_REVISION}}|${WIN_X64_REV}|g" \
   -e "s|{{WIN_X64_URL}}|${WIN_X64_URL}|g" \
   -e "s|{{WIN_X64_SNAPSHOTS}}|${WIN_X64_SNAP}|g" \
+  -e "s|{{LINUX_X64_REVISION}}|${LINUX_X64_REV}|g" \
+  -e "s|{{LINUX_X64_URL}}|${LINUX_X64_URL}|g" \
+  -e "s|{{LINUX_X64_SNAPSHOTS}}|${LINUX_X64_SNAP}|g" \
   -e "s|{{UPDATED}}|${UPDATED}|g" \
   "$TEMPLATE" > "$OUTPUT"
 
@@ -41,3 +46,4 @@ echo "Updated site/index.html"
 echo "  Mac Intel:  ${MAC_INTEL_REV}"
 echo "  Mac Silicon: ${MAC_ARM_REV}"
 echo "  Windows x64: ${WIN_X64_REV}"
+echo "  Linux x64: ${LINUX_X64_REV}"

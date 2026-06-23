@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chromium Downloads</title>
+  <meta name="description" content="Latest Chromium snapshot builds for macOS, Windows, and Linux. Direct download links, updated daily.">
+  <link rel="canonical" href="https://chromium.uonick.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Chromium Downloads">
+  <meta property="og:description" content="Latest Chromium snapshot builds for macOS, Windows, and Linux. Direct download links, updated daily.">
+  <meta property="og:url" content="https://chromium.uonick.com/">
+  <meta property="og:site_name" content="Chromium Downloads">
+  <meta property="og:locale" content="en_US">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Chromium Downloads">
+  <meta name="twitter:description" content="Latest Chromium snapshot builds for macOS, Windows, and Linux. Direct download links, updated daily.">
   <style>
     :root {
       --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -53,7 +66,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .card {
+    .download {
       width: 100%;
       max-width: 28rem;
       background: var(--card);
@@ -64,14 +77,14 @@
       box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     }
 
-    .tags {
+    .download__tabs {
       display: flex;
       flex-wrap: nowrap;
       gap: 0.375rem;
       margin-bottom: 1.5rem;
     }
 
-    .tag {
+    .download__tab {
       flex: 1;
       display: inline-flex;
       align-items: center;
@@ -88,31 +101,31 @@
       transition: color 0.15s, background 0.15s, border-color 0.15s;
     }
 
-    .tag:hover:not(.active) {
+    .download__tab:hover:not(.download__tab--active) {
       color: var(--foreground);
       border-color: var(--foreground);
     }
 
-    .tag.active {
+    .download__tab--active {
       color: hsl(0 0% 98%);
       background: hsl(240 5.9% 10%);
       border-color: hsl(240 5.9% 10%);
     }
 
-    .tag:focus-visible {
+    .download__tab:focus-visible {
       outline: 2px solid var(--ring);
       outline-offset: 2px;
     }
 
-    .tab-panel {
+    .download__panel {
       display: none;
     }
 
-    .tab-panel.active {
+    .download__panel--active {
       display: block;
     }
 
-    h1 {
+    .download__title {
       font-size: 1.5rem;
       font-weight: 600;
       line-height: 1.2;
@@ -120,14 +133,14 @@
       margin-bottom: 0.5rem;
     }
 
-    .description {
+    .download__description {
       font-size: 0.875rem;
       color: var(--muted-foreground);
       line-height: 1.5;
       margin-bottom: 1.5rem;
     }
 
-    .meta {
+    .download__meta {
       display: flex;
       flex-direction: column;
       gap: 0.375rem;
@@ -137,22 +150,22 @@
       margin-bottom: 1.5rem;
     }
 
-    .meta-row {
+    .download__meta-row {
       display: flex;
       justify-content: space-between;
       font-size: 0.8125rem;
     }
 
-    .meta-label {
+    .download__meta-label {
       color: var(--muted-foreground);
     }
 
-    .meta-value {
+    .download__meta-value {
       font-weight: 500;
       font-variant-numeric: tabular-nums;
     }
 
-    .btn {
+    .download__button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -171,33 +184,33 @@
       transition: opacity 0.15s;
     }
 
-    .btn:hover {
+    .download__button:hover {
       opacity: 0.9;
     }
 
-    .btn:focus-visible {
+    .download__button:focus-visible {
       outline: 2px solid var(--ring);
       outline-offset: 2px;
     }
 
-    .footer {
+    .download__note {
       margin-top: 1.5rem;
       text-align: center;
       font-size: 0.75rem;
       color: var(--muted-foreground);
     }
 
-    .footer a {
+    .download__note-link {
       color: var(--muted-foreground);
       text-decoration: underline;
       text-underline-offset: 2px;
     }
 
-    .footer a:hover {
+    .download__note-link:hover {
       color: var(--foreground);
     }
 
-    .repo-credit {
+    .credit {
       position: fixed;
       bottom: max(1rem, env(safe-area-inset-bottom));
       left: 50%;
@@ -209,109 +222,129 @@
       color: hsl(240 5% 64.9%);
     }
 
-    .repo-credit a {
+    .credit__link {
       color: inherit;
       text-decoration: none;
       transition: color 0.15s;
     }
 
-    .repo-credit a:hover {
+    .credit__link:hover {
       color: var(--muted-foreground);
       text-decoration: underline;
       text-underline-offset: 2px;
     }
 
     @media (prefers-color-scheme: dark) {
-      .repo-credit {
+      .credit {
         color: hsl(240 5% 34.9%);
       }
     }
   </style>
 </head>
 <body>
-  <main class="card">
-    <div class="tags" role="tablist">
-      <button class="tag active" role="tab" aria-selected="true" data-tab="mac-intel">Mac · Intel</button>
-      <button class="tag" role="tab" aria-selected="false" data-tab="mac-arm">Mac · Silicon</button>
-      <button class="tag" role="tab" aria-selected="false" data-tab="win-x64">Windows · x64</button>
+  <main class="download">
+    <div class="download__tabs" role="tablist">
+      <button class="download__tab download__tab--active" role="tab" aria-selected="true" data-tab="mac-intel">Mac · Intel</button>
+      <button class="download__tab" role="tab" aria-selected="false" data-tab="mac-arm">Mac · Silicon</button>
+      <button class="download__tab" role="tab" aria-selected="false" data-tab="win-x64">Windows · x64</button>
+      <button class="download__tab" role="tab" aria-selected="false" data-tab="linux-x64">Linux · x64</button>
     </div>
 
-    <div class="tab-panel active" id="mac-intel" role="tabpanel">
-      <h1>Chromium</h1>
-      <p class="description">Latest snapshot for macOS (Intel). Does not auto-update.</p>
-      <div class="meta">
-        <div class="meta-row">
-          <span class="meta-label">Revision</span>
-          <span class="meta-value">{{MAC_INTEL_REVISION}}</span>
+    <div class="download__panel download__panel--active" id="mac-intel" role="tabpanel">
+      <h1 class="download__title">Chromium</h1>
+      <p class="download__description">Latest snapshot for macOS (Intel). Does not auto-update.</p>
+      <div class="download__meta">
+        <div class="download__meta-row">
+          <span class="download__meta-label">Revision</span>
+          <span class="download__meta-value">{{MAC_INTEL_REVISION}}</span>
         </div>
-        <div class="meta-row">
-          <span class="meta-label">Updated</span>
-          <span class="meta-value">{{UPDATED}}</span>
+        <div class="download__meta-row">
+          <span class="download__meta-label">Updated</span>
+          <span class="download__meta-value">{{UPDATED}}</span>
         </div>
       </div>
-      <a class="btn" href="{{MAC_INTEL_URL}}">Download chrome-mac.zip</a>
-      <p class="footer">
-        Builds from <a href="{{MAC_INTEL_SNAPSHOTS}}">Chromium snapshots</a>
+      <a class="download__button" href="{{MAC_INTEL_URL}}">Download chrome-mac.zip</a>
+      <p class="download__note">
+        Builds from <a class="download__note-link" href="{{MAC_INTEL_SNAPSHOTS}}">Chromium snapshots</a>
       </p>
     </div>
 
-    <div class="tab-panel" id="mac-arm" role="tabpanel">
-      <h1>Chromium</h1>
-      <p class="description">Latest snapshot for macOS (Apple Silicon). Does not auto-update.</p>
-      <div class="meta">
-        <div class="meta-row">
-          <span class="meta-label">Revision</span>
-          <span class="meta-value">{{MAC_ARM_REVISION}}</span>
+    <div class="download__panel" id="mac-arm" role="tabpanel">
+      <h1 class="download__title">Chromium</h1>
+      <p class="download__description">Latest snapshot for macOS (Apple Silicon). Does not auto-update.</p>
+      <div class="download__meta">
+        <div class="download__meta-row">
+          <span class="download__meta-label">Revision</span>
+          <span class="download__meta-value">{{MAC_ARM_REVISION}}</span>
         </div>
-        <div class="meta-row">
-          <span class="meta-label">Updated</span>
-          <span class="meta-value">{{UPDATED}}</span>
+        <div class="download__meta-row">
+          <span class="download__meta-label">Updated</span>
+          <span class="download__meta-value">{{UPDATED}}</span>
         </div>
       </div>
-      <a class="btn" href="{{MAC_ARM_URL}}">Download chrome-mac.zip</a>
-      <p class="footer">
-        Builds from <a href="{{MAC_ARM_SNAPSHOTS}}">Chromium snapshots</a>
+      <a class="download__button" href="{{MAC_ARM_URL}}">Download chrome-mac.zip</a>
+      <p class="download__note">
+        Builds from <a class="download__note-link" href="{{MAC_ARM_SNAPSHOTS}}">Chromium snapshots</a>
       </p>
     </div>
 
-    <div class="tab-panel" id="win-x64" role="tabpanel">
-      <h1>Chromium</h1>
-      <p class="description">Latest snapshot for Windows (x64). Does not auto-update.</p>
-      <div class="meta">
-        <div class="meta-row">
-          <span class="meta-label">Revision</span>
-          <span class="meta-value">{{WIN_X64_REVISION}}</span>
+    <div class="download__panel" id="win-x64" role="tabpanel">
+      <h1 class="download__title">Chromium</h1>
+      <p class="download__description">Latest snapshot for Windows (x64). Does not auto-update.</p>
+      <div class="download__meta">
+        <div class="download__meta-row">
+          <span class="download__meta-label">Revision</span>
+          <span class="download__meta-value">{{WIN_X64_REVISION}}</span>
         </div>
-        <div class="meta-row">
-          <span class="meta-label">Updated</span>
-          <span class="meta-value">{{UPDATED}}</span>
+        <div class="download__meta-row">
+          <span class="download__meta-label">Updated</span>
+          <span class="download__meta-value">{{UPDATED}}</span>
         </div>
       </div>
-      <a class="btn" href="{{WIN_X64_URL}}">Download chrome-win.zip</a>
-      <p class="footer">
-        Builds from <a href="{{WIN_X64_SNAPSHOTS}}">Chromium snapshots</a>
+      <a class="download__button" href="{{WIN_X64_URL}}">Download chrome-win.zip</a>
+      <p class="download__note">
+        Builds from <a class="download__note-link" href="{{WIN_X64_SNAPSHOTS}}">Chromium snapshots</a>
+      </p>
+    </div>
+
+    <div class="download__panel" id="linux-x64" role="tabpanel">
+      <h1 class="download__title">Chromium</h1>
+      <p class="download__description">Latest snapshot for Linux (x64). Does not auto-update.</p>
+      <div class="download__meta">
+        <div class="download__meta-row">
+          <span class="download__meta-label">Revision</span>
+          <span class="download__meta-value">{{LINUX_X64_REVISION}}</span>
+        </div>
+        <div class="download__meta-row">
+          <span class="download__meta-label">Updated</span>
+          <span class="download__meta-value">{{UPDATED}}</span>
+        </div>
+      </div>
+      <a class="download__button" href="{{LINUX_X64_URL}}">Download chrome-linux.zip</a>
+      <p class="download__note">
+        Builds from <a class="download__note-link" href="{{LINUX_X64_SNAPSHOTS}}">Chromium snapshots</a>
       </p>
     </div>
   </main>
 
-  <p class="repo-credit">
+  <p class="credit">
     uonick
     <span aria-hidden="true">·</span>
-    <a href="https://github.com/uonick/chromium" target="_blank" rel="noopener noreferrer">github</a>
+    <a class="credit__link" href="https://github.com/uonick/chromium" target="_blank" rel="noopener noreferrer">github</a>
   </p>
 
   <script>
-    const tabs = document.querySelectorAll('.tag');
-    const panels = document.querySelectorAll('.tab-panel');
+    const tabs = document.querySelectorAll('.download__tab');
+    const panels = document.querySelectorAll('.download__panel');
 
     function selectTab(id) {
       tabs.forEach(t => {
         const active = t.dataset.tab === id;
-        t.classList.toggle('active', active);
+        t.classList.toggle('download__tab--active', active);
         t.setAttribute('aria-selected', active);
       });
       panels.forEach(p => {
-        p.classList.toggle('active', p.id === id);
+        p.classList.toggle('download__panel--active', p.id === id);
       });
     }
 
@@ -341,14 +374,17 @@
     }
 
     async function detectPlatform() {
-      const uad = navigator.userAgentData;
-      if (uad?.platform === 'Windows') return 'win-x64';
-      if (uad?.platform === 'macOS') return detectMacArch();
-
       const ua = navigator.userAgent;
       const platform = navigator.platform;
+      const uad = navigator.userAgentData;
+
+      if (uad?.platform === 'Windows') return 'win-x64';
+      if (uad?.platform === 'macOS') return detectMacArch();
+      if (uad?.platform === 'Linux') return 'linux-x64';
+
       if (/Win/i.test(platform) || /Windows/i.test(ua)) return 'win-x64';
       if (/Mac/i.test(platform) || /Macintosh/i.test(ua)) return detectMacArch();
+      if (!/Android/i.test(ua) && (/Linux/i.test(platform) || /Linux/i.test(ua))) return 'linux-x64';
 
       return null;
     }
