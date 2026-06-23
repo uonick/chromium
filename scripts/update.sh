@@ -26,7 +26,8 @@ IFS='|' read -r WIN_X64_REV WIN_X64_URL WIN_X64_SNAP <<< "$WIN_X64"
 IFS='|' read -r LINUX_X64_REV LINUX_X64_URL LINUX_X64_SNAP <<< "$LINUX_X64"
 
 mkdir -p "$OUTPUT_DIR"
-cp "$ROOT/assets/og.png" "$OUTPUT_DIR/og.png"
+cp "$ROOT/assets/og.jpg" "$OUTPUT_DIR/og.jpg"
+cp "$ROOT/assets/robots.txt" "$OUTPUT_DIR/robots.txt"
 sed \
   -e "s|{{MAC_INTEL_REVISION}}|${MAC_INTEL_REV}|g" \
   -e "s|{{MAC_INTEL_URL}}|${MAC_INTEL_URL}|g" \
